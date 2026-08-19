@@ -1,0 +1,19 @@
+{
+  "setpoint": 1.0,
+  "sim_steps": 400,
+  "ts": 0.1,
+  "band": 0.02,
+  "controller": {
+    "kp": 1.5,
+    "ti": 3.0,
+    "td": 0.2,
+    "umin": -1.0,
+    "umax": 1.0
+  },
+  "plant": {
+    "type": "fopdt",
+    "gain": 1.0,
+    "tau": 3.0,
+    "delay": 1.0
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "setpoint": 2.0,
+  "sim_steps": 300,
+  "ts": 0.05,
+  "band": 0.02,
+  "controller": {
+    "kp": 1.2,
+    "ti": 2.0,
+    "td": 0.3,
+    "umin": -2.5,
+    "umax": 2.5
+  },
+  "plant": {
+    "type": "second",
+    "gain": 1.0,
+    "zeta": 0.6,
+    "omega": 2.0
+  }
+}
