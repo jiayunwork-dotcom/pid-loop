@@ -45,8 +45,7 @@ func (m *FOPDT) Step(u float64) float64 {
 	} else {
 		delayed = u
 	}
-	m.pv = m.a*m.pv + m.b*delayed
-	return m.pv
+	return applyFOPDTStep(m, delayed)
 }
 
 // Reset clears the PV and the delay queue.
