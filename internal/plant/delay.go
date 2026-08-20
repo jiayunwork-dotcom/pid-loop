@@ -14,10 +14,7 @@ type DelayLine struct {
 // NewDelayLine creates a queue of length n (n >= 0). A zero-length queue
 // passes samples through immediately.
 func NewDelayLine(n int) *DelayLine {
-	if n < 0 {
-		n = 0
-	}
-	return &DelayLine{buf: make([]float64, n)}
+	return &DelayLine{buf: fillDelayBuf(n)}
 }
 
 // Push stores v and returns the oldest sample in the queue. With a
