@@ -30,7 +30,9 @@ func (c *Controller) Compute(sp, pv float64) float64 {
 	if c.hasPrev {
 		de = (e - c.ePrev) / c.Ts
 	}
-	proportional, integralTerm, derivative := applyTerms(c, e, de)
+	proportional := c.Kp * e
+	derivative := c.Kp * c.Td * de
+	integralTerm := (c.Kp / c.Ti) * c.integral
 	uRaw := proportional + integralTerm + derivative
 	u := Clamp(uRaw, c.UMin, c.UMax)
 
