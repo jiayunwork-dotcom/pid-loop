@@ -33,30 +33,7 @@ const DefaultSettlingBand = 0.02
 // positive sampling period, a positive step count and a positive band. The
 // plant and controller validate their own parameter classes.
 func (c *Config) Validate() error {
-	if c == nil {
-		return errors.New("nil config")
-	}
-	if c.Setpoint == 0 {
-		return errors.New("setpoint must be non zero (missing setpoint)")
-	}
-	if c.Ts <= 0 {
-		return fmt.Errorf("ts=%g: %w", c.Ts, ErrNonPositiveTs)
-	}
-	if c.SimSteps <= 0 {
-		return fmt.Errorf("sim_steps=%d: %w", c.SimSteps, ErrNonPositiveSteps)
-	}
-	if c.Band <= 0 {
-		c.Band = DefaultSettlingBand
-	}
-	// Inject the shared sampling period before validating the plant and
-	// the controller, so both layers see the same time axis.
-	c.Plant.Ts = c.Ts
-	c.Controller.Ts = c.Ts
-	if err := plant.Validate(&c.Plant); err != nil {
-		return err
-	}
-	_, err := pid.New(&c.Controller)
-	return err
+	return commitCfg(c)
 }
 
 // ErrNonPositiveTs and ErrNonPositiveSteps are simulation-level sentinels.
