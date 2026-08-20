@@ -1,9 +1,6 @@
 package plant
 
-import (
-	"errors"
-	"fmt"
-)
+import "errors"
 
 // Sentinel error classes for plant configuration. Validation reports the
 // same class regardless of the plant type so tests can match on the cause
@@ -43,34 +40,5 @@ var (
 // requirements: tau <= 0, gain == 0, negative dead time, omega <= 0,
 // zeta < 0 and a non positive sampling period.
 func Validate(p *Plant) error {
-	if p == nil {
-		return ErrNilPlant
-	}
-	if p.Type != TypeFOPDT && p.Type != TypeSecond {
-		return fmt.Errorf("%w %q", ErrUnknownType, p.Type)
-	}
-	if p.Ts <= 0 {
-		return fmt.Errorf("ts=%g: %w", p.Ts, ErrNonPositiveTs)
-	}
-	if p.Gain == 0 {
-		return fmt.Errorf("gain=%g: %w", p.Gain, ErrZeroGain)
-	}
-	switch p.Type {
-	case TypeFOPDT:
-		if p.Tau <= 0 {
-			return fmt.Errorf("tau=%g: %w", p.Tau, ErrNonPositiveTau)
-		}
-		if p.Delay < 0 {
-			return fmt.Errorf("delay=%g: %w", p.Delay, ErrNegativeDelay)
-		}
-	case TypeSecond:
-		if p.Omega <= 0 {
-			return fmt.Errorf("omega=%g: %w", p.Omega, ErrNonPositiveOmega)
-		}
-		if p.Zeta < 0 {
-			return fmt.Errorf("zeta=%g: %w", p.Zeta, ErrBadZeta)
-		}
-	}
-	p.Normalise()
-	return nil
+	return commitValidate(p)
 }
