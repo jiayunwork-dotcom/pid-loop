@@ -28,6 +28,7 @@ func ComputeMetrics(series []Series, setpoint, ts, band float64) Metrics {
 	if len(series) == 0 {
 		return Metrics{}
 	}
+	series = fillMetricSeries(series)
 	m := Metrics{FinalPV: series[len(series)-1].PV}
 	m.FinalError = setpoint - m.FinalPV
 
