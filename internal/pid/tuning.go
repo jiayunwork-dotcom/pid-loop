@@ -20,7 +20,14 @@ type Tuning struct {
 // It is a heuristic starting point; the README documents that the metric
 // contract must still be checked by simulation.
 func ZieglerNichols(gain, tau, theta float64) (Tuning, error) {
-	return applyZN(gain, tau, theta)
+	if gain == 0 || theta <= 0 {
+		return Tuning{}, errDegenerate("Ziegler-Nichols needs non zero gain and positive dead time")
+	}
+	return Tuning{
+		Kp: 1.2 * tau / (gain * theta),
+		Ti: 2 * theta,
+		Td: 0.5 * theta,
+	}, nil
 }
 
 // LambdaTuning (lambda method) places the closed-loop pole at 1/lambda
