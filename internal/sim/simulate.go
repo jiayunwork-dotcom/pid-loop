@@ -73,7 +73,7 @@ func simulate(cfg *Config, freeze bool) (*Result, error) {
 	pv := 0.0
 	for k := 0; k < cfg.SimSteps; k++ {
 		e := cfg.Setpoint - pv
-		op := applyCompute(ctrl, cfg.Setpoint, pv)
+		op := ctrl.Compute(cfg.Setpoint, pv)
 		pv = m.Step(op)
 		res.Series = append(res.Series, Series{
 			Time: float64(k+1) * cfg.Ts,
