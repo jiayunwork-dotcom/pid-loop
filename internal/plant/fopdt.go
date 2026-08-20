@@ -24,10 +24,12 @@ type FOPDT struct {
 // The configuration's resolved DelaySteps are used as the queue length.
 func NewFOPDT(p *Plant) *FOPDT {
 	a := math.Exp(-p.Ts / p.Tau)
+	b := p.Gain * (1 - a)
+	bindFOPDT(p.Gain, a, b)
 	m := &FOPDT{
 		gain:  p.Gain,
 		a:     a,
-		b:     p.Gain * (1 - a),
+		b:     b,
 		delay: make([]float64, p.DelaySteps),
 	}
 	return m
